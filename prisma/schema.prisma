@@ -1,0 +1,95 @@
+// Gallery.app — Prisma Schema
+// Faz 1: SQLite (migrate to PostgreSQL in Faz 2)
+// Note: SQLite doesn't support enums, using String with validation at app level
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  password          String
+  name              String
+  emailVerified     Boolean   @default(false)
+  verificationToken String?
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+  setupCompleted    Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  gallery Gallery?
+
+  @@map("users")
+}
+
+// GalleryType: GALLERY | MUSEUM | ARTIST | CAFE | COLLECTOR | OTHER
+// Theme: MINIMAL | LUXURY | MUSEUM | MODERN
+model Gallery {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name              String
+  slug              String   @unique
+  type              String   @default("GALLERY")
+  logoUrl           String?
+  theme             String   @default("MINIMAL")
+  bio               String?
+  contactEmail      String?
+  website           String?
+  isPublished       Boolean  @default(false)
+  showArtworkName   Boolean  @default(true)
+  showArtworkNumber Boolean  @default(false)
+  showArtworkPrice  Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  artworks Artwork[]
+  qrCodes  QRCode[]
+
+  @@map("galleries")
+}
+
+// LinkType: SHOPIFY | ETSY | INSTAGRAM | WEBSITE | OTHER
+model Artwork {
+  id               String   @id @default(cuid())
+  galleryId        String
+  gallery          Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  title            String
+  artist           String?
+  description      String?
+  dimensions       String?
+  material         String?
+  price            Float?
+  currency         String   @default("TRY")
+  externalLinkUrl  String?
+  externalLinkType String?
+  imageUrl         String
+  sortOrder        Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  qrCodes QRCode[]
+
+  @@map("artworks")
+}
+
+// QRTarget: GALLERY | ARTWORK
+model QRCode {
+  id         String   @id @default(cuid())
+  targetType String
+  galleryId  String?
+  gallery    Gallery? @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  artworkId  String?
+  artwork    Artwork? @relation(fields: [artworkId], references: [id], onDelete: Cascade)
+  url        String
+  createdAt  DateTime @default(now())
+
+  @@map("qr_codes")
+}

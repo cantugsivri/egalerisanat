@@ -16,6 +16,8 @@ interface Artwork {
   externalLinkUrl: string | null
   externalLinkType: string | null
   imageUrl: string
+  showPriceOnGallery: boolean
+  showPriceOnDetail: boolean
 }
 
 interface EditArtworkFormProps {
@@ -70,6 +72,8 @@ export default function EditArtworkForm({ artwork }: EditArtworkFormProps) {
   const [material, setMaterial] = useState(artwork.material || '')
   const [price, setPrice] = useState(artwork.price !== null ? artwork.price.toString() : '')
   const [currency, setCurrency] = useState(artwork.currency)
+  const [showPriceOnGallery, setShowPriceOnGallery] = useState(artwork.showPriceOnGallery ?? true)
+  const [showPriceOnDetail, setShowPriceOnDetail] = useState(artwork.showPriceOnDetail ?? true)
   const [externalLinkUrl, setExternalLinkUrl] = useState(artwork.externalLinkUrl || '')
   const [externalLinkType, setExternalLinkType] = useState(artwork.externalLinkType || 'WEBSITE')
   
@@ -140,6 +144,8 @@ export default function EditArtworkForm({ artwork }: EditArtworkFormProps) {
           material: material || null,
           price: price ? parseFloat(price) : null,
           currency,
+          showPriceOnGallery,
+          showPriceOnDetail,
           externalLinkUrl: externalLinkUrl || null,
           externalLinkType: externalLinkUrl ? externalLinkType : null,
           imageUrl,
@@ -340,6 +346,30 @@ export default function EditArtworkForm({ artwork }: EditArtworkFormProps) {
             </select>
           </div>
         </div>
+
+        {/* Price Visibility Checkboxes */}
+        {price && (
+          <div style={{ display: 'flex', gap: 24, padding: '12px 16px', background: '#f9f9f9', borderRadius: 8, border: '1px solid #eee' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, cursor: 'pointer', userSelect: 'none' }}>
+              <input
+                type="checkbox"
+                checked={showPriceOnGallery}
+                onChange={e => setShowPriceOnGallery(e.target.checked)}
+                style={{ width: 15, height: 15, accentColor: '#111', cursor: 'pointer' }}
+              />
+              Galeri ana sayfasında göster
+            </label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, cursor: 'pointer', userSelect: 'none' }}>
+              <input
+                type="checkbox"
+                checked={showPriceOnDetail}
+                onChange={e => setShowPriceOnDetail(e.target.checked)}
+                style={{ width: 15, height: 15, accentColor: '#111', cursor: 'pointer' }}
+              />
+              Eser detay sayfasında göster
+            </label>
+          </div>
+        )}
 
         {/* External E-Commerce Links */}
         <div className="divider" style={{ margin: '8px 0' }} />

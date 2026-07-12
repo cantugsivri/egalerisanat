@@ -16,6 +16,8 @@ export default function NewArtworkPage() {
   const [material, setMaterial] = useState('')
   const [price, setPrice] = useState('')
   const [currency, setCurrency] = useState('TRY')
+  const [showPriceOnGallery, setShowPriceOnGallery] = useState(true)
+  const [showPriceOnDetail, setShowPriceOnDetail] = useState(true)
   const [externalLinkUrl, setExternalLinkUrl] = useState('')
   const [externalLinkType, setExternalLinkType] = useState('WEBSITE')
   
@@ -86,6 +88,8 @@ export default function NewArtworkPage() {
           material: material || null,
           price: price ? parseFloat(price) : null,
           currency,
+          showPriceOnGallery,
+          showPriceOnDetail,
           externalLinkUrl: externalLinkUrl || null,
           externalLinkType: externalLinkUrl ? externalLinkType : null,
           imageUrl,
@@ -286,6 +290,30 @@ export default function NewArtworkPage() {
             </select>
           </div>
         </div>
+
+        {/* Price Visibility Checkboxes */}
+        {price && (
+          <div style={{ display: 'flex', gap: 24, padding: '12px 16px', background: '#f9f9f9', borderRadius: 8, border: '1px solid #eee' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, cursor: 'pointer', userSelect: 'none' }}>
+              <input
+                type="checkbox"
+                checked={showPriceOnGallery}
+                onChange={e => setShowPriceOnGallery(e.target.checked)}
+                style={{ width: 15, height: 15, accentColor: '#111', cursor: 'pointer' }}
+              />
+              Galeri ana sayfasında göster
+            </label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, cursor: 'pointer', userSelect: 'none' }}>
+              <input
+                type="checkbox"
+                checked={showPriceOnDetail}
+                onChange={e => setShowPriceOnDetail(e.target.checked)}
+                style={{ width: 15, height: 15, accentColor: '#111', cursor: 'pointer' }}
+              />
+              Eser detay sayfasında göster
+            </label>
+          </div>
+        )}
 
         {/* External E-Commerce Links */}
         <div className="divider" style={{ margin: '8px 0' }} />

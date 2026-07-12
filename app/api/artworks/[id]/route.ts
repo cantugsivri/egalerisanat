@@ -27,7 +27,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   const { id } = await params
   try {
     const body = await req.json()
-    const { title, artist, description, dimensions, material, price, currency, externalLinkUrl, externalLinkType, imageUrl } = body
+    const { title, artist, description, dimensions, material, price, currency, externalLinkUrl, externalLinkType, imageUrl, showPriceOnGallery, showPriceOnDetail } = body
 
     const gallery = await prisma.gallery.findUnique({ where: { userId: authUser.userId } })
     if (!gallery) return NextResponse.json({ error: 'Galeri bulunamadı.' }, { status: 404 })
@@ -42,6 +42,8 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         price: price ? parseFloat(price) : null,
         currency: currency || 'TRY',
         externalLinkUrl, externalLinkType, imageUrl,
+        showPriceOnGallery: showPriceOnGallery ?? true,
+        showPriceOnDetail: showPriceOnDetail ?? true,
       },
     })
 

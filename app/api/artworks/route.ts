@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const { title, artist, description, dimensions, material, price, currency, externalLinkUrl, externalLinkType, imageUrl } = body
+    const { title, artist, description, dimensions, material, price, currency, externalLinkUrl, externalLinkType, imageUrl, showPriceOnGallery, showPriceOnDetail } = body
 
     if (!title || !imageUrl) {
       return NextResponse.json({ error: 'Başlık ve fotoğraf zorunludur.' }, { status: 400 })
@@ -54,6 +54,8 @@ export async function POST(req: NextRequest) {
         externalLinkUrl,
         externalLinkType,
         imageUrl,
+        showPriceOnGallery: showPriceOnGallery ?? true,
+        showPriceOnDetail: showPriceOnDetail ?? true,
         sortOrder,
       },
     })

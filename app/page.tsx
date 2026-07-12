@@ -53,10 +53,15 @@ export default async function LandingPage() {
           Dijital Galerini<br />
           <span style={{ color: '#888' }}>Dakikalar İçinde</span> Aç
         </h1>
-        <p className="landing-hero-subtitle">
-          Bir eser yükle, galerini aç — hepsi 1 dakika içinde. Galerine özel QR kod otomatik oluşturulur.
-          Renk, tema, iletişim bilgileri? Hepsini yönetim panelinden istediğin zaman düzenlersin.
-        </p>
+        <div className="landing-hero-subtitle" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <strong>Bir eser yükle, galerini aç — hepsi 1 dakika içinde.</strong>
+          <em style={{ fontWeight: 'normal', fontStyle: 'italic', color: 'var(--color-text-muted)' }}>
+            Galerine özel QR kod otomatik oluşturulur.
+          </em>
+          <em style={{ fontWeight: 'normal', fontStyle: 'italic', color: 'var(--color-text-muted)' }}>
+            Renk, tema, iletişim bilgileri? Hepsini yönetim panelinden istediğin zaman düzenlersin.
+          </em>
+        </div>
         <div className="landing-hero-cta">
           <Link href="/register" className="btn btn-primary btn-lg">
             Ücretsiz Galeri Oluştur →

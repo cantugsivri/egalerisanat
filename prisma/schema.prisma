@@ -41,6 +41,7 @@ model Gallery {
   logoUrl           String?
   theme             String   @default("MINIMAL")
   bio               String?
+  aboutText         String?
   contactEmail      String?
   website           String?
   isPublished       Boolean  @default(false)

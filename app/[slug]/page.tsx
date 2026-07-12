@@ -103,24 +103,6 @@ export default async function PublicGalleryPage({ params }: PublicGalleryPagePro
           >
             {gallery.name}
           </span>
-          {/* Contact */}
-          {gallery.contactEmail && (
-            <a
-              href={`mailto:${gallery.contactEmail}`}
-              style={{
-                fontSize: 13,
-                fontWeight: 500,
-                border: '1px solid var(--gallery-border)',
-                padding: '6px 14px',
-                borderRadius: themeKey === 'modern' ? 4 : 24,
-                color: 'var(--gallery-text)',
-                textDecoration: 'none',
-                transition: 'all 200ms ease',
-              }}
-            >
-              İletişime Geç
-            </a>
-          )}
         </div>
       </header>
 
@@ -358,33 +340,147 @@ export default async function PublicGalleryPage({ params }: PublicGalleryPagePro
         )}
       </main>
 
+      {/* HAKKIMIZDA + İLETİŞİM */}
+      {(gallery.aboutText || gallery.contactEmail || gallery.website) && (
+        <section
+          style={{
+            borderTop: '1px solid var(--gallery-border)',
+            padding: '64px 24px',
+            maxWidth: 800,
+            margin: '0 auto',
+          }}
+        >
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: gallery.aboutText && (gallery.contactEmail || gallery.website) ? 'repeat(auto-fit, minmax(280px, 1fr))' : '1fr',
+              gap: 48,
+            }}
+          >
+            {/* Hakkımızda */}
+            {gallery.aboutText && (
+              <div>
+                <h2
+                  style={{
+                    fontFamily: 'var(--gallery-title-font)',
+                    fontSize: themeKey === 'luxury' ? 11 : 13,
+                    fontWeight: 700,
+                    letterSpacing: themeKey === 'luxury' ? '4px' : '1.5px',
+                    textTransform: 'uppercase',
+                    color: 'var(--gallery-text-muted)',
+                    marginBottom: 16,
+                  }}
+                >
+                  Hakkımızda
+                </h2>
+                <p
+                  style={{
+                    fontSize: 15,
+                    lineHeight: 1.8,
+                    color: 'var(--gallery-text)',
+                    whiteSpace: 'pre-line',
+                    opacity: 0.85,
+                    fontStyle: themeKey === 'museum' ? 'italic' : 'normal',
+                  }}
+                >
+                  {gallery.aboutText}
+                </p>
+              </div>
+            )}
+
+            {/* İletişim */}
+            {(gallery.contactEmail || gallery.website) && (
+              <div>
+                <h2
+                  style={{
+                    fontFamily: 'var(--gallery-title-font)',
+                    fontSize: themeKey === 'luxury' ? 11 : 13,
+                    fontWeight: 700,
+                    letterSpacing: themeKey === 'luxury' ? '4px' : '1.5px',
+                    textTransform: 'uppercase',
+                    color: 'var(--gallery-text-muted)',
+                    marginBottom: 16,
+                  }}
+                >
+                  İletişim
+                </h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {gallery.contactEmail && (
+                    <a
+                      href={`mailto:${gallery.contactEmail}`}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 10,
+                        fontSize: 14,
+                        color: 'var(--gallery-text)',
+                        textDecoration: 'none',
+                        fontWeight: 500,
+                      }}
+                    >
+                      <span style={{
+                        width: 32, height: 32,
+                        background: 'var(--gallery-border)',
+                        borderRadius: themeKey === 'modern' ? 6 : '50%',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                      }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                          <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                      </span>
+                      {gallery.contactEmail}
+                    </a>
+                  )}
+                  {gallery.website && (
+                    <a
+                      href={gallery.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 10,
+                        fontSize: 14,
+                        color: 'var(--gallery-text)',
+                        textDecoration: 'none',
+                        fontWeight: 500,
+                      }}
+                    >
+                      <span style={{
+                        width: 32, height: 32,
+                        background: 'var(--gallery-border)',
+                        borderRadius: themeKey === 'modern' ? 6 : '50%',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                      }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10"/>
+                          <line x1="2" y1="12" x2="22" y2="12"/>
+                          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                      </span>
+                      Web Sitesi ↗
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
       {/* FOOTER */}
       <footer
         style={{
           borderTop: '1px solid var(--gallery-border)',
-          padding: '40px 24px',
+          padding: '32px 24px',
           textAlign: 'center',
           fontSize: 12,
           color: 'var(--gallery-text-muted)',
         }}
       >
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-          {gallery.website && (
-            <a
-              href={gallery.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: 'var(--gallery-text)',
-                fontWeight: 500,
-                textDecoration: 'underline',
-                fontSize: 13,
-              }}
-            >
-              Sanatçının / Galerinin Web Sitesi ↗
-            </a>
-          )}
-          <p style={{ marginTop: 8 }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <p>
             © 2026 {gallery.name} · Bu galeri{' '}
             <a
               href="/"

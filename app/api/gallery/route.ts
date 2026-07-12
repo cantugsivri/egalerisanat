@@ -79,12 +79,14 @@ export async function PUT(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const { name, type, logoUrl, theme, bio, contactEmail, website, showArtworkName, showArtworkNumber, showArtworkPrice } = body
+    const { name, type, logoUrl, theme, bio, aboutText, contactEmail, website, showArtworkName, showArtworkNumber, showArtworkPrice } = body
 
     const gallery = await prisma.gallery.update({
       where: { userId: authUser.userId },
       data: { 
-        name, type, logoUrl, theme, bio, contactEmail, website,
+        name, type, logoUrl, theme, bio,
+        aboutText: aboutText ?? null,
+        contactEmail, website,
         ...(showArtworkName !== undefined && { showArtworkName }),
         ...(showArtworkNumber !== undefined && { showArtworkNumber }),
         ...(showArtworkPrice !== undefined && { showArtworkPrice }),

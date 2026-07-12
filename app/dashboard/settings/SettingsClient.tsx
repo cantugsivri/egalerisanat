@@ -8,6 +8,7 @@ interface GalleryData {
   type: string
   logoUrl: string | null
   bio: string | null
+  aboutText: string | null
   contactEmail: string | null
   website: string | null
   showArtworkName: boolean
@@ -25,6 +26,7 @@ export default function SettingsClient({ gallery }: SettingsClientProps) {
   const [name, setName] = useState(gallery.name)
   const [type, setType] = useState(gallery.type)
   const [bio, setBio] = useState(gallery.bio || '')
+  const [aboutText, setAboutText] = useState(gallery.aboutText || '')
   const [contactEmail, setContactEmail] = useState(gallery.contactEmail || '')
   const [website, setWebsite] = useState(gallery.website || '')
   
@@ -83,6 +85,7 @@ export default function SettingsClient({ gallery }: SettingsClientProps) {
           type,
           logoUrl,
           bio: bio || null,
+          aboutText: aboutText || null,
           contactEmail: contactEmail || null,
           website: website || null,
           showArtworkName,
@@ -167,14 +170,26 @@ export default function SettingsClient({ gallery }: SettingsClientProps) {
           </div>
 
           <div className="form-group">
-            <label className="form-label" htmlFor="bio">Galeri Açıklaması / Bio</label>
+            <label className="form-label" htmlFor="bio">Kısa Açıklama <span style={{ fontWeight: 400, color: 'var(--color-text-secondary)', fontSize: 12 }}>(Galeri başlığının altında görünür)</span></label>
             <textarea
               id="bio"
               className="form-input form-textarea"
-              style={{ minHeight: 80 }}
-              placeholder="Sanat galeriniz, tarihçeniz veya sanat anlayışınız hakkında kısa bilgi..."
+              style={{ minHeight: 60 }}
+              placeholder="Sanat galerinize kısa bir hoş geldiniz mesajı..."
               value={bio}
               onChange={e => setBio(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label" htmlFor="aboutText">Hakkımızda <span style={{ fontWeight: 400, color: 'var(--color-text-secondary)', fontSize: 12 }}>(Galeri sayfasının altında ayrı bir bölüm olarak görünür)</span></label>
+            <textarea
+              id="aboutText"
+              className="form-input form-textarea"
+              style={{ minHeight: 120 }}
+              placeholder="Galerinizin hikayesi, misyonunuz, sanat anlayışınız, kurucular hakkında bilgi..."
+              value={aboutText}
+              onChange={e => setAboutText(e.target.value)}
             />
           </div>
         </div>

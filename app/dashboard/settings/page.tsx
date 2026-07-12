@@ -17,6 +17,7 @@ export default async function SettingsPage() {
       type: true,
       logoUrl: true,
       bio: true,
+      aboutText: true,
       contactEmail: true,
       website: true,
       showArtworkName: true,

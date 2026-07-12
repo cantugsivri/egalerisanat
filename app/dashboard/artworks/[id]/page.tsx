@@ -50,6 +50,8 @@ export default async function EditArtworkPage({ params }: EditArtworkPageProps) 
         externalLinkUrl: artwork.externalLinkUrl,
         externalLinkType: artwork.externalLinkType,
         imageUrl: artwork.imageUrl,
+        showPriceOnGallery: artwork.showPriceOnGallery,
+        showPriceOnDetail: artwork.showPriceOnDetail,
       }}
     />
   )

@@ -54,8 +54,8 @@ export default async function LandingPage() {
           <span style={{ color: '#888' }}>Dakikalar İçinde</span> Aç
         </h1>
         <p className="landing-hero-subtitle">
-          Kod yazmana gerek yok. Eserlerin yükle, tema seç, URL belirle —
-          profesyonel sanat galeriniz anında yayında.
+          Bir eser yükle, galerini aç — hepsi 1 dakika içinde. Galerine özel QR kod otomatik oluşturulur.
+          Renk, tema, iletişim bilgileri? Hepsini yönetim panelinden istediğin zaman düzenlersin.
         </p>
         <div className="landing-hero-cta">
           <Link href="/register" className="btn btn-primary btn-lg">

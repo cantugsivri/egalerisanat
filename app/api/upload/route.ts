@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/db'
 import { getAuthUserFromRequest } from '@/lib/auth'
-import { writeFile, mkdir } from 'fs/promises'
-import { join } from 'path'
+import { put } from '@vercel/blob'
 import { v4 as uuidv4 } from 'uuid'
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/svg+xml']
@@ -28,22 +26,17 @@ export async function POST(req: NextRequest) {
     }
 
     if (file.size > MAX_SIZE) {
-      return NextResponse.json({ error: 'Dosya boyutu 10MB\'ı geçemez.' }, { status: 400 })
+      return NextResponse.json({ error: "Dosya boyutu 10MB'ı geçemez." }, { status: 400 })
     }
 
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-
     const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
-    const fileName = `${uuidv4()}.${ext}`
-    const uploadDir = join(process.cwd(), 'public', 'uploads', type)
+    const fileName = `${type}/${uuidv4()}.${ext}`
 
-    await mkdir(uploadDir, { recursive: true })
-    await writeFile(join(uploadDir, fileName), buffer)
+    const blob = await put(fileName, file, {
+      access: 'public',
+    })
 
-    const url = `/uploads/${type}/${fileName}`
-
-    return NextResponse.json({ success: true, url })
+    return NextResponse.json({ success: true, url: blob.url })
   } catch (error) {
     console.error('Upload error:', error)
     return NextResponse.json({ error: 'Dosya yükleme başarısız.' }, { status: 500 })

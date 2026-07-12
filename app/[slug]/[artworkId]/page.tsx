@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/db'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import ArtworkImageZoom from './ArtworkImageZoom'
 
 interface PublicArtworkPageProps {
   params: Promise<{ slug: string; artworkId: string }>
@@ -97,37 +98,11 @@ export default async function PublicArtworkPage({ params }: PublicArtworkPagePro
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 48, alignItems: 'start' }}>
           
           {/* Eser Fotoğrafı (Left Column) */}
-          <div
-            style={{
-              padding: themeKey === 'museum' ? 16 : 0,
-              border: themeKey === 'museum' 
-                ? '12px solid #8b7355' 
-                : themeKey === 'luxury' 
-                  ? '1px solid #222' 
-                  : themeKey === 'modern' 
-                    ? '1px solid #e2e2e2' 
-                    : 'none',
-              borderRadius: themeKey === 'modern' ? 8 : 0,
-              background: themeKey === 'museum' ? '#fff' : 'transparent',
-              boxShadow: themeKey === 'museum' 
-                ? '0 10px 30px rgba(0,0,0,0.15)' 
-                : themeKey === 'modern' 
-                  ? '0 8px 24px rgba(0,0,0,0.04)' 
-                  : 'none',
-              overflow: 'hidden',
-            }}
-          >
-            <img
-              src={artwork.imageUrl}
-              alt={artwork.title}
-              style={{
-                width: '100%',
-                maxHeight: '70vh',
-                objectFit: 'contain',
-                display: 'block',
-              }}
-            />
-          </div>
+          <ArtworkImageZoom
+            src={artwork.imageUrl}
+            alt={artwork.title}
+            themeKey={themeKey}
+          />
 
           {/* Eser Detayları (Right Column) */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
